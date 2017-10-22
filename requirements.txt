@@ -1,0 +1,5 @@
+requests
+cymon
+beautifulsoup4
+maxminddb-geolite2
+flask
