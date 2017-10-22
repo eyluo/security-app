@@ -7,23 +7,22 @@ components include Google Maps for Python.
 Installation
 ------------
 
-- Make sure you have the latest versions of Python3 and React.js installed.
-- Clone this repo into your desired directory.
-- cd into the directory from Terminal.
-- Run the following:
+1. Make sure you have the latest versions of Python3 and React.js installed.
+2. Clone this repo into your desired directory.
+3. cd into the directory from Terminal.
+4. Run the following:
 
-.. code-block:: bash
-
+```
 $ pip3 install requirements.txt
+```
 
 Usage
 -----
 
 Run the following in the directory:
 
-.. code-block:: bash
-
+```
 $ python3 app_main.py
-
+```
 
 This is totally open source. Please don't be malicious with its use.
