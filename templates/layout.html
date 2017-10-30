@@ -1,60 +1,95 @@
 <html>
-<head>
-    <title>Website</title>
-<style>
-@import url(http://fonts.googleapis.com/css?family=Amatic+SC:700);
- 
-body{
-    text-align: center;    
-}
-h1{
-    font-family: 'Amatic SC', cursive;
-    font-weight: normal;
-    color: #8ac640;
-    font-size: 2.5em;
-}
- 
-</style>
- 
-</head>
-<body>
-  <div class="block1">
-    <h1>Hello {{name}}!</h1>
-      <h2>Here is an interesting quote for you: </h2>
-      <p>
-        {{phrase}}
+  <head>
+    <title>security-app</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='./style.css') }}">
+  </head>
+
+  <style type="text/css">
+    body {
+      font-family: helvetica;
+    }
+
+    #search {
+      margin: auto;
+    }
+
+    #table_data, tr, td {
+      border: 1px solid black;
+      margin: auto;
+    }
+
+    #map {
+      width: 50%;
+      height: 50%;
+      background: yellow;
+      margin: auto;
+    }
+  </style>
+
+  <body>
+    <div class="expo">
+      <h1>Purpose</h1> 
+      <p> This is a simple security app made to explore locations of blocked IPs
+          associated with ransomware by sourcing a text file from 
+          <a href='https://ransomwaretracker.abuse.ch/.com'>Ransomware Tracker</a>.
+          This includes a Google Map visualization of IPs on the blocklist as 
+          well was a table presenting the locations.
       </p>
-    <img src="http://www.naturalprogramming.com/images/smilingpython.gif">
-  </div>
-  <div class="container">
-    <h1>Flask React</h1>
-    <br>
-    <div id="content"></div>
-  </div>
-  <div id="map" style="width:400px;height:400px;background:yellow"></div>
+      <p> Source code can be found on my
+          <a href='https://github.com/eyluo'>GitHub</a>.
+      </p>
+    </div>
 
-   <!-- scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
-  <script type="text/jsx">
+    <div id="map"></div>
 
-    /*** @jsx React.DOM */
+  <div id='table_whole'>
+    <script type='text/javascript'>
+      function search_table() {
+        var input, filter, table, tr, td, i;
 
-    var realPython = React.createClass({
-      render: function() {
-        return (<h2>Greetings, from Real Python!</h2>);
+        input = document.getElementById("search");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("table_data");
+        tr = table.getElementsByTagName("tr");
+
+        console.log("Testing");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[0];
+          if (td) {
+            if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          } 
+        }
+      } 
+    </script>
+    <input type="text" id="search" onkeyup="search_table()" placeholder="Search for names..">
+
+    <script>
+      var obj = {{location_dict|tojson}};
+      var table_data = "<table id='table_data'><tbody>";
+
+      table_data += '<col width="120"><col width="180"><col width="120">';
+
+      for (var i = 0; i < Object.keys(obj).length; i++) {
+        var ip = Object.keys(obj)[i];
+        table_data += '<tr>';
+        table_data += '<td>' + obj[ip].continent + '</td>';
+        table_data += '<td>' + obj[ip].country + '</td>';
+        table_data += '<td>' + obj[ip].coordinates + '</td>';
+        table_data += '</tr>';
       }
-    });
 
-    ReactDOM.render(
-      React.createElement(realPython, null),
-      document.getElementById('content')
-    );
+      table_data += '</tbody><table>';
 
-  </script>
+      document.write(table_data);
+    </script>
+  </div>
 
-  <div id="map"></div>
     <script>
       var map;
       function initMap() {
@@ -64,16 +99,12 @@ h1{
           mapTypeId: 'terrain'
         });
 
-        // Create a <script> tag and set the USGS URL as the source.
         var script = document.createElement('script');
-        // This example uses a local copy of the GeoJSON stored at
-        // http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp
         script.src = 'https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js';
         document.getElementsByTagName('head')[0].appendChild(script);
       }
 
-      // Loop through the results array and place a marker for each
-      // set of coordinates.
+      // This function was modified by passing in the coordinate list
       window.eqfeed_callback = function(results) {
         for (var i = 0; i < {{coord_list|tojson}}.length; i++) {
           var coords = {{coord_list|tojson}}[i];
@@ -85,8 +116,10 @@ h1{
         }
       }
     </script>
+
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBug__rHg6yiJh4N5GbsBNXFEHg8HI9IZo&callback=initMap">
     </script>
-</body>
+
+  </body>
 </html>

@@ -5,7 +5,7 @@ from flask import Flask, flash, redirect, render_template, request, session, abo
 
 from ip_manipulation import get_location_dict, get_coord_list, get_country_list
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 
 @app.route("/")
 def hello():
@@ -15,21 +15,17 @@ def hello():
     country_list = get_country_list(location_dict)
     return render_template('layout.html',**locals())
 
-@app.route("/goKnicks")
-def goKnicks():
-    return "also, go Knicks!"
-
-@app.route("/name")
-def name():
-    return "Names: "
-
-@app.route("/name/<string:name>")
-def getName(name):
-    return name
+@app.route("/table")
+def render_table():
+    return render_template('table.js', **locals())
 
 @app.route("/test")
 def test():
     return str(get_location_dict())
+
+@app.route('/<path:path>')
+def send_js(path):
+    return send_from_directory('', path)
 
 
 if __name__ == "__main__":

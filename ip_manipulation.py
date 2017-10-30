@@ -16,20 +16,12 @@ def get_location_dict():
         if current_ip[0] == '#': continue
         else:
             location_info = geolite2.reader().get(current_ip)
-            # print(current_ip)
 
             if type(location_info) == dict:
                 current_ip_dict['continent'] = location_info['continent']['names']['en']
                 current_ip_dict['country'] = location_info['country']['names']['en']
-                current_ip_dict['coordinates'] = (location_info['location']['latitude'], location_info['location']['longitude'])
+                current_ip_dict['coordinates'] = ('%.3f'%(location_info['location']['latitude']), '%.3f'%(location_info['location']['longitude']))
                 ip_dict[current_ip] = current_ip_dict
-                # print("coordinates: ", (location_info['location']['latitude'], location_info['location']['longitude']))
-                # print('\n')
-            # else: 
-                # print("No location info!")
-                # print('\n')
-
-            
 
     return ip_dict
 

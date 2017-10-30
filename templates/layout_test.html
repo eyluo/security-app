@@ -1,0 +1,102 @@
+<html>
+<head>
+    <title>Website</title>
+<style>
+@import url(http://fonts.googleapis.com/css?family=Amatic+SC:700);
+ 
+body{
+    text-align: center;    
+}
+h1{
+    font-family: 'Amatic SC', cursive;
+    font-weight: normal;
+    color: #8ac640;
+    font-size: 2.5em;
+}
+ 
+</style>
+ 
+</head>
+<body>
+  <div class="block1">
+    <h1>Hello {{name}}!</h1>
+      <h2>Here is an interesting quote for you: </h2>
+      <p>
+        {{phrase}}
+      </p>
+    <img src="http://www.naturalprogramming.com/images/smilingpython.gif">
+  </div>
+  <div class="container">
+    <h1>Flask React</h1>
+    <br>
+    <div id="content"></div>
+  </div>
+  <div id="map" style="width:400px;height:400px;background:yellow"></div>
+
+   <!-- scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+  <script type="text/jsx">
+    
+    /*** @jsx React.DOM */
+
+    var realPython = React.createClass({
+      render: function() {
+        return (<h2>Greetings, from Real Python!</h2>);
+      }
+    });
+
+    ReactDOM.render(
+      React.createElement(realPython, null),
+      document.getElementById('content')
+    );
+
+  </script>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/react-table@latest/react-table.css">
+
+  <!-- JS -->
+  <script src="https://unpkg.com/react-table@latest/react-table.js"></script>
+
+  <script type="text/jsx">
+   var ReactTable = window.ReactTable.default
+  </script>
+
+  <div id="map"></div>
+    <script>
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 2,
+          center: new google.maps.LatLng(2.8,-187.3),
+          mapTypeId: 'terrain'
+        });
+
+        // Create a <script> tag and set the USGS URL as the source.
+        var script = document.createElement('script');
+        // This example uses a local copy of the GeoJSON stored at
+        // http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp
+        script.src = 'https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js';
+        document.getElementsByTagName('head')[0].appendChild(script);
+      }
+
+      // Loop through the results array and place a marker for each
+      // set of coordinates.
+      window.eqfeed_callback = function(results) {
+        for (var i = 0; i < {{coord_list|tojson}}.length; i++) {
+          var coords = {{coord_list|tojson}}[i];
+          var latLng = new google.maps.LatLng(coords[0],coords[1]);
+          var marker = new google.maps.Marker({
+            position: latLng,
+            map: map
+          });
+        }
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBug__rHg6yiJh4N5GbsBNXFEHg8HI9IZo&callback=initMap">
+    </script>
+</body>
+</html>

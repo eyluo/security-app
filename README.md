@@ -1,8 +1,7 @@
 security-app
 ============
 
-This is a very basic webapp that locates IP addresses associated with Ransomware according to ransomwaretracker.com. I made this using Python3's Flask module and React.JS. Other
-components include Google Maps for Python.
+This is a very basic webapp that locates IP addresses associated with Ransomware according to ransomwaretracker.com. I made this using Python3's Flask module and React.JS. Other components include Google Maps for Python.
 
 Installation
 ------------
@@ -25,4 +24,20 @@ Run the following in the directory:
 $ python3 app_main.py
 ```
 
-This is totally open source. Please don't be malicious with its use.
+Open http://127.0.0.1:5000/ on your favorite browser!
+
+This is an open-source project relying on Flask, RansomwareTracker and Google Maps.
+Special thanks to those two as well as StackOverflow for answering my 
+miscellaneous questions as per usual.
+
+Please cite anything that you use here.
+
+Learning goals (for me!):
+* How to use Flask
+* Get accustomed to the full stack
+* Extend these into my other personal projects
+
+To fix in the future:
+* Learn how to use Flask so I can style on a CSS sheet and put my scripts in the
+/static folder
+* Integrate React into this project
