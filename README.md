@@ -27,7 +27,7 @@ $ python3 app_main.py
 Open http://127.0.0.1:5000/ on your favorite browser!
 
 This is an open-source project relying on Flask, RansomwareTracker and Google Maps.
-Special thanks to those two as well as StackOverflow for answering my 
+Special thanks to those three as well as StackOverflow for answering my 
 miscellaneous questions as per usual.
 
 Please cite anything that you use here.
